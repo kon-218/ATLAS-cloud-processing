@@ -57,6 +57,14 @@
             "destination_type": "queue",
             "routing_key": "task_queue",
             "arguments": {}
+        },
+        {
+            "source": "default_exchange",
+            "vhost": "/",
+            "destination": "done_queue",
+            "destination_type": "queue",
+            "routing_key": "done_queue",
+            "arguments": {}
         }
     ]
 }

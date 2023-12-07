@@ -1,7 +1,0 @@
-FROM python:3.8-slim-buster
-WORKDIR /HZZ_app
-COPY /HZZ_app /HZZ_app
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements/requirements_proc.txt
-EXPOSE 5000
-CMD ["python", "scripts/process_data.py"]

@@ -3,7 +3,7 @@ services:
   get_data:
     build:
       context: .
-      dockerfile: docker/get_data/Dockerfile_get_data
+      dockerfile: HZZ_app/scripts/get_data/Dockerfile_get_data
     image: get_data
     volumes:
       - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app:/HZZ_app
@@ -19,7 +19,7 @@ services:
   process_data:
     build:
       context: .
-      dockerfile: docker/process_data/Dockerfile_process_data
+      dockerfile: HZZ_app/scripts/process/Dockerfile_process_data
     image: process_data
     deploy:
       replicas: 2
@@ -38,7 +38,7 @@ services:
   output_data:
     build:
       context: .
-      dockerfile: docker/output/Dockerfile_out
+      dockerfile: HZZ_app/scripts/output/Dockerfile_out
     image: output
     volumes:
       - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app:/HZZ_app
