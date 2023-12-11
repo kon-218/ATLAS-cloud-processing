@@ -46,9 +46,24 @@ services:
       - analysis_network
     depends_on:
       - get_data
+    links:
+      - rabbitmq
     # constraints:
     #   - node.role == worker
     #   - node.hostname == output_data
+  webserver:
+    build:
+      context: .
+      dockerfile: HZZ_app/scripts/webserver/Dockerfile_webserver  # Replace with the path to your Dockerfile
+    image: webserver
+    volumes:
+      - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app:/HZZ_app
+    networks:
+      - analysis_network
+    ports:
+      - 8888:8888
+    depends_on:
+      - rabbitmq
   rabbitmq:
     image: rabbitmq:3-management
     ports:
