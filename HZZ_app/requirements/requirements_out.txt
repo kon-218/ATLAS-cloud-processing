@@ -1,0 +1,6 @@
+numpy
+matplotlib
+jupyter
+awkward
+voila
+pika

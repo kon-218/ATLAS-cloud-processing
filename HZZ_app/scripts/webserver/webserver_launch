@@ -1,0 +1,5 @@
+#!/bin/bash
+python3 webserver_comm.py
+jupyter nbconvert --execute scripts/output/output.ipynb --to html --ExecutePreprocessor.timeout=-1
+echo "Please open http://localhost:8888 in your browser"
+jupyter scripts/output/output.ipynb
