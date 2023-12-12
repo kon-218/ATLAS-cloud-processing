@@ -1,5 +1,4 @@
 from scripts.utils import connect_to_rabbitmq
-import subprocess
 
 connection = connect_to_rabbitmq('rabbitmq')
 channel = connection.channel()
@@ -15,9 +14,4 @@ while not message:
 
 print("received message: %s" % message)
 
-#run webserver
-def start_jupyter_server():
-    subprocess.Popen(["jupyter", "notebook", "scripts/webserver/output.ipynb","--no-browser", "--port=8888"])
-
-print("please open localhost:8888")
-start_jupyter_server()
+#run webserver (finished script)

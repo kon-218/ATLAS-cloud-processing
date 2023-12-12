@@ -1,6 +1,7 @@
 import pika
 import time
 import os
+import shutil
 
 lumi = 0.5 # fb-1 # data_A only
 #lumi = 1.9 # fb-1 # data_B only
@@ -39,7 +40,7 @@ samples = {
 MeV = 0.001
 GeV = 1.0
 
-def connect_to_rabbitmq(host, retries=5, delay=5):
+def connect_to_rabbitmq(host, retries=20, delay=5):
     for i in range(retries):
         try:
             return pika.BlockingConnection(pika.ConnectionParameters(host=host))

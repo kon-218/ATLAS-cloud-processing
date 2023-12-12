@@ -3,6 +3,4 @@ WORKDIR /HZZ_app
 COPY /HZZ_app /HZZ_app
 ENV PYTHONPATH /HZZ_app
 RUN pip install -r requirements/requirements_out.txt
-EXPOSE 8888
-RUN chmod +x scripts/output/output.sh
-CMD ["scripts/output/output.sh"]
+CMD ["python","scripts/output/output.py"]
