@@ -1,0 +1,93 @@
+version: '3'
+services:
+  get_data:
+    build:
+      context: .
+      dockerfile: HZZ_app/scripts/get_data/Dockerfile_get_data
+    image: get_data
+    deploy:
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app:/HZZ_app
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    networks:
+      - analysis_network
+    # constraints:
+    #   - node.role == worker
+    #   - node.hostname == get_data
+  process_data:
+    build:
+      context: .
+      dockerfile: HZZ_app/scripts/process/Dockerfile_process_data
+    image: process_data
+    deploy:
+      replicas: 2
+      # restart_policy:
+      #   condition: on-failure
+    volumes:
+      - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app:/HZZ_app
+    networks:
+      - analysis_network
+    depends_on:
+      - get_data
+      - rabbitmq
+    links:
+      - rabbitmq
+    # constraints:
+    #   - node.role == worker
+    #   - node.hostname == process_data
+  output_data:
+    build:
+      context: .
+      dockerfile: HZZ_app/scripts/output/Dockerfile_out
+    image: output
+    deploy:
+      # restart_policy:
+      #   condition: on-failure
+    volumes:
+      - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app:/HZZ_app
+    networks:
+      - analysis_network
+    depends_on:
+      - get_data
+    links:
+      - rabbitmq
+    # constraints:
+    #   - node.role == worker
+    #   - node.hostname == output_data
+  webserver:
+    build:
+      context: .
+      dockerfile: HZZ_app/scripts/webserver/Dockerfile_webserver  # Replace with the path to your Dockerfile
+    image: webserver
+    deploy:
+      restart_policy: 
+        condition: on-failure
+    volumes:
+      - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app:/HZZ_app
+    networks:
+      - analysis_network
+    ports:
+      - 8889:8889
+    depends_on:
+      - rabbitmq
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app/requirements/definitions.json:/etc/rabbitmq/definitions.json
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management load_definitions "/etc/rabbitmq/definitions.json"
+    networks:
+      - analysis_network
+networks:
+  analysis_network:

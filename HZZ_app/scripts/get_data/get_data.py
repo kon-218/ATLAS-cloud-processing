@@ -41,15 +41,7 @@ channel.queue_declare(queue='task_queue', durable=True)
     
 print("Geting data")
 
-start = time.time() # time at start of whole processing
 data = get_data_from_files() # process all files
-elapsed = time.time() - start # time after whole processing
-print(os.getcwd())
-print(os.access(os.getcwd(), os.W_OK))
-print("Time taken: "+str(round(elapsed,1))+"s") # print total time taken to process every file
-
-print(os.getcwd())
-print(os.access(os.getcwd(), os.W_OK))
 
 os.makedirs("data",exist_ok=True)
 utils.delete_files_in_directory('data')
@@ -57,4 +49,3 @@ utils.delete_files_in_directory('data')
 os.makedirs("data/static",exist_ok=True)
     
 connection.close()
-print("Exit 0")

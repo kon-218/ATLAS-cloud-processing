@@ -4,4 +4,5 @@ COPY /HZZ_app /HZZ_app
 ENV PYTHONPATH /HZZ_app
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements/requirements_webserver.txt
-CMD ["python", "scripts/webserver/webserver_comm.py"]
+RUN chmod -x scripts/webserver/webserver_launch.sh
+CMD ["scripts/webserver/webserver_launch.sh"]
