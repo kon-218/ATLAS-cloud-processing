@@ -155,13 +155,12 @@ def callback(ch,method,properties,body):
     data = ak.from_iter(data.get("data", None))
     
     # Add to dictionary
-    # Add data to dictionary
     for category, s in utils.samples.items():
         if name in s['list']:
             data_dict_key = category
             state['dataDict'][data_dict_key].append(data)  # Append data to the list
 
-    
+    # Update number of samples received 
     state['dataRecv'] += 1
     print(" [x] Received %r", name)
     Recv_channel.basic_ack(delivery_tag=method.delivery_tag)
@@ -188,8 +187,10 @@ Recv_channel.start_consuming()
 for sample, data in state['dataDict'].items():
     state['dataDict'][sample] = ak.concatenate(data)
 
+# Plot output
 plot_data(state['dataDict'])
 
+# Communicate, finished postprocessing
 Send_channel = connection.channel()
 Send_channel.queue_declare(queue='webserver_queue', durable=True)
 Send_channel.basic_publish(exchange='',routing_key='webserver_queue', body='done', properties=pika.BasicProperties(delivery_mode=2,))

@@ -7575,12 +7575,12 @@ Signal ($m_H$ = 125 GeV):
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Number of services: 5
 Services with replicas:
-- process_data: 2 replicas
+- get_data: 5 intitial replicas
+- process_data: 2 intitial replicas
 Services without replicas:
-- get_data
 - output_data
-- webserver
 - rabbitmq
+- webserver
 </pre>
 </div>
 </div>
@@ -7606,7 +7606,7 @@ Services without replicas:
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>RabbitMQ Version: 3.8.9
-RabbitMQ monitoring panel: http://localhost:15672/
+RabbitMQ monitoring panel: http://0.0.0.0:15672/ (accessible provided stack still running)
 Users:
 	Name: guest,
 	Password: guest

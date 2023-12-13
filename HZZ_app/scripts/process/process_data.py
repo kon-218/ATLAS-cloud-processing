@@ -64,46 +64,13 @@ def read_file(ch, method, properties, body):
     labeled_data = {'data_name': sample, 'data': serialised_data}
     data_json = json.dumps(labeled_data)
     
-    # os.makedirs("data",exist_ok=True)
-    # with open(f'data/{sample}.pkl', 'wb') as f:
-    #     pickle.dump(data, f)
-    #     print("writing data to {}".format(f.name))
-
+    # Write data out to the done_queue 
+    # Acknowledge the message has been processed
     ch.basic_ack(delivery_tag = method.delivery_tag)
     channel2.basic_publish(exchange = "",
                            routing_key='done_queue',
                            body=data_json,
                            properties=pika.BasicProperties(delivery_mode=2,))  # make message persistent
-
-
-def process_chunk(args):
-    data, sample = args
-    if 'data' not in sample: xsec_weight = get_xsec_weight(sample) # get cross-section weight
-    # Process the chunk and return the result
-    if 'data' not in sample: # only do this for Monte Carlo simulation files
-        # multiply all Monte Carlo weights and scale factors together to give total weight
-        data['totalWeight'] = calc_weight(xsec_weight, data)
-
-    # cut on lepton charge using the function cut_lep_charge defined above
-    data = data[~cut_lep_charge(data.lep_charge)]
-
-    # cut on lepton type using the function cut_lep_type defined above
-    data = data[~cut_lep_type(data.lep_type)]
-
-    # calculation of 4-lepton invariant mass using the function calc_mllll defined above
-    data['mllll'] = calc_mllll(data.lep_pt, data.lep_eta, data.lep_phi, data.lep_E)
-
-    # array contents can be printed at any stage like this
-    #print(data)
-
-    # array column can be printed at any stage like this
-    #print(data['lep_pt'])
-
-    # multiple array columns can be printed at any stage like this
-    #print(data[['lep_pt','lep_eta']])
-    #nOut = len(data) # number of events passing cuts in this batch
-    
-    return data
 
 def calc_weight(xsec_weight, events):
     return (
@@ -127,9 +94,6 @@ def calc_mllll(lep_pt, lep_eta, lep_phi, lep_E):
     # [:, i] selects the i-th lepton in each event
     # .M calculates the invariant mass
     return (p4[:, 0] + p4[:, 1] + p4[:, 2] + p4[:, 3]).M * utils.MeV
-
-
-
 
 # cut on lepton charge
 # paper: "selecting two pairs of isolated leptons, each of which is comprised of two leptons with the same flavour and opposite charge"

@@ -40,11 +40,14 @@ samples = {
 MeV = 0.001
 GeV = 1.0
 
-def connect_to_rabbitmq(host, retries=20, delay=5):
+def connect_to_rabbitmq(host, retries=20, delay=10):
     for i in range(retries):
         try:
             return pika.BlockingConnection(pika.ConnectionParameters(host=host))
         except pika.exceptions.AMQPConnectionError:
+            print(f"Failed to connect, retrying in {delay} seconds...")
+            time.sleep(delay)
+        except:
             print(f"Failed to connect, retrying in {delay} seconds...")
             time.sleep(delay)
     raise Exception("Failed to connect to RabbitMQ")

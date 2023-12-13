@@ -11,6 +11,7 @@ while not message:
     method_frame, header_frame, body = channel.basic_get(queue="webserver_queue", auto_ack=True)
     if method_frame:
         message = body
+        channel.basic_ack(delivery_tag=method.delivery_tag)
 
 print("received message: %s" % message)
 
