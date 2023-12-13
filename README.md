@@ -10,6 +10,9 @@ Prerequesites:
 Docker images can be built using ```docker-compose build```
 These can then be ran on a host machine using ```docker-compose up```
 
+The docker-compose file contains most configurations to do with the docker stack and should be changed as required. 
+The Program requires access to multiple ports, as well as a directory on the host machine, defined using the ```volumes``` argument to map to HZZ_app in container
+
 ## Distribution across nodes
 
 The code is setup to be distributed across a swarm using docker swarm mode
@@ -27,7 +30,7 @@ The docker-compose file dictates the number of worker replicas spawned
 
 The scripts/utils.py file contains parameters controlling how much data is sampled, it is not necessary to rebuild the docker images when changing these settings
 
-*Communication management and results output*
+## Communication management and results output
 
 Communication is managed by the RabbitMQ message broker service, with the configuration panel accessible from http://0.0.0.0:15672
 
