@@ -26,3 +26,9 @@ To deploy the application and begin processing
 The docker-compose file dictates the number of worker replicas spawned
 
 The scripts/utils.py file contains parameters controlling how much data is sampled, it is not necessary to rebuild the docker images when changing these settings
+
+*Communication management and results output*
+
+Communication is managed by the RabbitMQ message broker service, with the configuration panel accessible from http://0.0.0.0:15672
+
+Results are output using a webserver, which can be found at http://0.0.0.0:8889/data/output.html, alternatively, it is available as a html file and png plot file in the data directory

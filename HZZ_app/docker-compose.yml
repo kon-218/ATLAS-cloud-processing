@@ -6,6 +6,7 @@ services:
       dockerfile: HZZ_app/scripts/get_data/Dockerfile_get_data
     image: get_data
     deploy:
+      replicas: 5
       restart_policy:
         condition: on-failure
     volumes:
@@ -64,9 +65,6 @@ services:
       context: .
       dockerfile: HZZ_app/scripts/webserver/Dockerfile_webserver  # Replace with the path to your Dockerfile
     image: webserver
-    deploy:
-      restart_policy: 
-        condition: on-failure
     volumes:
       - /home/user/Documents/Fourth_year/SciComp/miniProject2/miniproj/HZZ_app:/HZZ_app
     networks:
