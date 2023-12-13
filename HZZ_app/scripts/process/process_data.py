@@ -3,7 +3,6 @@ import uproot
 import awkward as ak
 from scripts import infofile, utils
 import vector
-from multiprocessing import Pool
 import os
 import pika
 import pickle

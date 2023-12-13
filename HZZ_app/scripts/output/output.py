@@ -3,12 +3,10 @@ import numpy as np
 import awkward as ak
 from matplotlib.ticker import AutoMinorLocator # for minor ticks
 import pickle
-import requests
 import time 
 import os
 import sys
 from scripts import utils
-import glob
 import pika
 import json 
 
