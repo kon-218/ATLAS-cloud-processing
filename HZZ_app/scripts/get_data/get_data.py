@@ -1,6 +1,5 @@
 from scripts import infofile, utils
 import awkward as ak
-import requests
 import pickle
 import time
 import os
