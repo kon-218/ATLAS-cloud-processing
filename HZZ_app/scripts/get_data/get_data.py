@@ -37,15 +37,19 @@ def get_data_from_files():
 connection = utils.connect_to_rabbitmq('rabbitmq')
 channel = connection.channel()
 
+# Declare channel
 channel.queue_declare(queue='task_queue', durable=True)
     
 print("Geting data")
 
 data = get_data_from_files() # process all files
 
+# Empty the data directory in preperation for a fresh processing run 
 os.makedirs("data",exist_ok=True)
 utils.delete_files_in_directory('data')
 
+# Create static data dir for plot output 
 os.makedirs("data/static",exist_ok=True)
     
+# Finished communicating
 connection.close()
